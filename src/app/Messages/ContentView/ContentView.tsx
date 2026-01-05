@@ -1,7 +1,9 @@
 import isEmpty from 'lodash/isEmpty';
 import {useMemo} from 'react';
 
-import {ContentTypeEnum, Props} from './types';
+import {MessageContentTypeEnum} from '__utils/types';
+
+import {Props} from './types';
 
 import style from './style.module.scss';
 
@@ -10,7 +12,7 @@ const {
     Hyperlink,
     Image,
     Text,
-} = ContentTypeEnum;
+} = MessageContentTypeEnum;
 
 const ContentView = ({content}: Props) => {
     const {

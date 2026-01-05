@@ -8,7 +8,7 @@ import {
 import {IndicatorTypeEnum} from '__utils/types';
 
 import AnimatedDummyTextView from '../../AnimatedDummyTextView';
-import {MessageView} from '../MessageView';
+import MessageView from '../MessageView';
 import ScrollBottomButton from '../ScrollBottomButton';
 
 import {Props} from './types';

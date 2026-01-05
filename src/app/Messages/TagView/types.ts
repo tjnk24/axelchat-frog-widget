@@ -1,7 +1,7 @@
-import {TagDto} from '__utils/types';
+import {MessageAuthorTagDto} from '__utils/types';
 
 interface OwnProps {
-    tag: TagDto;
+    tag: MessageAuthorTagDto;
 }
 
 export type Props = OwnProps;

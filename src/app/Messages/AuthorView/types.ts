@@ -1,18 +1,7 @@
-import {TagDto} from '__utils/types';
-
-export type AuthorDto = {
-    serviceBadge: string;
-    leftTags?: TagDto[];
-    rightTags?: TagDto[];
-    leftBadges?: string[];
-    rightBadges?: string[];
-    customBackgroundColor?: string;
-    color?: string;
-    name?: string;
-}
+import {MessageAuthorDto} from '__utils/types';
 
 interface OwnProps {
-    author?: AuthorDto;
+    author?: MessageAuthorDto;
     showPlatformIcon?: boolean;
 }
 
