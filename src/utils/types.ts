@@ -57,3 +57,9 @@ export type MessageDto = {
     multiline?: boolean;
     contents?: MessageContentDto[];
 };
+
+export type ServiceDto = {
+    enabled: boolean;
+    viewers: number;
+    icon?: string;
+};

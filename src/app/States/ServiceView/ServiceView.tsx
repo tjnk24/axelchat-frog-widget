@@ -1,38 +1,31 @@
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import isEmpty from 'lodash/isEmpty';
+
+import {Props} from './types';
 
 import style from './style.modele.scss';
 
-export class ServiceView extends Component {
-    static propTypes = {
-        service: PropTypes.object.isRequired,
-    };
-
-    static defaultProps = {
-        service: null,
-    };
-
-    static props: Record<string, unknown> = {};
-
-    render() {
-        const service = this.props?.['service'];
-
-        if (!service) {
-            return (
-                <div>null</div>
-            );
-        }
-
+const ServiceView = ({service}: Props) => {
+    if (isEmpty(service)) {
         return (
-            <span className={style.serviceIndicator} style={{whiteSpace: 'nowrap'}}>
-                <img
-                    className={style.bigBadgeServiceIcon}
-                    alt=""
-                    src={service?.['icon']}
-                />
-
-                <span className={style.bigText}>{service?.['viewers'] !== -1 ? service?.['viewers'].toLocaleString() : ''}</span>
-            </span>
+            <div>null</div>
         );
     }
-}
+
+    const {icon, viewers} = service || {};
+
+    return (
+        <span className={style.serviceIndicator}>
+            <img
+                className={style.bigBadgeServiceIcon}
+                alt="service icon"
+                src={icon}
+            />
+
+            <span className={style.bigText}>
+                {viewers !== -1 ? viewers.toLocaleString() : ''}
+            </span>
+        </span>
+    );
+};
+
+export default ServiceView;

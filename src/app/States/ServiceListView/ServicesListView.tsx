@@ -1,95 +1,56 @@
+import {useMemo} from 'react';
 
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import ServiceView from '../ServiceView';
 
-import {ServiceView} from '../ServiceView';
+import {Props} from './types';
+import {getVisiblePlatformsCount} from './utils/getVisiblePlatformsCount';
+import {isVisiblePlatform} from './utils/isVisiblePlatform';
 
 import style from './style.module.scss';
 
-function getTotalViewersView(viewers, enabledSourcesCount) {
-    if (enabledSourcesCount === 1) {
-        return null;
-    }
+const ServicesListView = ({
+    appState,
+    hidePlatformIconIfCountIsUnknown,
+    services = [],
+}: Props) => {
+    const totalViewersView = useMemo(() => {
+        const enabledSourcesCount = getVisiblePlatformsCount(services, hidePlatformIconIfCountIsUnknown);
 
-    return (
-        <span className={style.serviceIndicator} style={{whiteSpace: 'nowrap'}}>
-            <img className={style.bigBadgeServiceIcon} alt=""
-                src="./images/person.svg"/>
-
-            <span className={style.bigText}>{viewers > -1 ? viewers.toLocaleString() : '?'}</span>
-        </span>
-    );
-}
-
-function isVisiblePlatform(service, hidePlatformIconIfCountIsUnknown) {
-    if (!service) {
-        // eslint-disable-next-line no-console
-        console.warn('service is null');
-        return false;
-    }
-
-    if (!service.enabled) {
-        return false;
-    }
-
-    if (service.viewers >= 0) {
-        return true;
-    }
-
-    return !hidePlatformIconIfCountIsUnknown;
-}
-
-function getVisiblePlatformsCount(services, hidePlatformIconIfCountIsUnknown) {
-    let result = 0;
-    for (let i = 0; i < services.length; i++) {
-        if (isVisiblePlatform(services[i], hidePlatformIconIfCountIsUnknown)) {
-            result++;
+        if (enabledSourcesCount === 1) {
+            return null;
         }
-    }
-    return result;
-}
 
-function getPlatformDisplayStyle(service, hidePlatformIconIfCountIsUnknown) {
-    if (isVisiblePlatform(service, hidePlatformIconIfCountIsUnknown)) {
-        return 'inherit';
-    }
-
-    return 'none';
-}
-
-export class ServicesListView extends Component {
-    static propTypes = {
-        services: PropTypes.array.isRequired,
-        appState: PropTypes.object.isRequired,
-        hidePlatformIconIfCountIsUnknown: PropTypes.bool,
-    };
-
-    static defaultProps = {
-        services: [],
-        appState: null,
-        hidePlatformIconIfCountIsUnknown: false,
-    };
-
-    static props: Record<string, unknown> = {};
-
-    render() {
-        const appState = this.props?.['appState'];
-        const services = this.props?.['services'];
-        const hidePlatformIconIfCountIsUnknown = this.props?.['hidePlatformIconIfCountIsUnknown'];
-        const visibleCount = getVisiblePlatformsCount(services, hidePlatformIconIfCountIsUnknown);
+        const {viewers} = appState || {};
 
         return (
-            <span>
-                {services.map((service, idx) => (
-                    <span key={idx} style={{display: getPlatformDisplayStyle(service, hidePlatformIconIfCountIsUnknown)}}>
-                        <ServiceView
-                            service={service}
-                        />
-                    </span>
-                ))}
+            <span className={style.serviceIndicator}>
+                <img
+                    className={style.bigBadgeServiceIcon}
+                    alt="big badge service icon"
+                    src="./images/person.svg"
+                />
 
-                {getTotalViewersView(appState.viewers, visibleCount)}
+                <span className={style.bigText}>
+                    {viewers > -1 ? viewers.toLocaleString() : '?'}
+                </span>
             </span>
         );
-    }
-}
+    }, [appState, hidePlatformIconIfCountIsUnknown, services]);
+
+    return (
+        <span>
+            {services.map((service, idx) => (
+                <span
+                    key={idx}
+                    style={{display: isVisiblePlatform(service, hidePlatformIconIfCountIsUnknown) ? 'inherit' : 'none'}}
+                >
+                    <ServiceView service={service}/>
+                </span>
+            ))}
+
+            {totalViewersView}
+        </span>
+    );
+};
+
+export default ServicesListView;

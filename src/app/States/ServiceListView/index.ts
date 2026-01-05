@@ -1,1 +1,1 @@
-export {ServicesListView} from './ServicesListView';
+export {default} from './ServicesListView';
