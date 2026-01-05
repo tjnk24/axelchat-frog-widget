@@ -1,42 +1,23 @@
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import {DEFAULT_TAG} from './consts';
+import {Props} from './types';
 
 import style from './style.module.scss';
 
-export class TagView extends Component {
-    static propTypes = {
-        tag: PropTypes.object.isRequired,
+const TagView = ({tag = DEFAULT_TAG}: Props) => {
+    const {
+        text,
+        textColor,
+        backgroundColor,
+    } = tag;
 
-        text: PropTypes.string.isRequired,
-        backgroundColor: PropTypes.string,
-        textColor: PropTypes.string,
-    };
+    return (
+        <span
+            className={style.tag}
+            style={{backgroundColor, color: textColor}}
+        >
+            {text}
+        </span>
+    );
+};
 
-    static defaultProps = {
-        tag: {
-            text: 'tag',
-            backgroundColor: '#03A9F4',
-            textColor: 'black',
-        },
-    };
-
-    render() {
-        const tag = this.props?.['tag'];
-
-        if (!tag) {
-            return <span>null</span>;
-        }
-
-        return (
-            <span
-                className={style.tag}
-                style={{
-                    'backgroundColor': tag.backgroundColor,
-                    'color': tag.textColor,
-                }}
-            >
-                {tag.text}
-            </span>
-        );
-    }
-}
+export default TagView;

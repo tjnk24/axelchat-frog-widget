@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 
-import {TagView} from '../TagView';
+import TagView from '../TagView';
 
 import {Props} from './types';
 

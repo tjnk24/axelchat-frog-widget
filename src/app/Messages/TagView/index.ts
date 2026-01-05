@@ -1,1 +1,1 @@
-export {TagView} from './TagView';
+export {default} from './TagView';
