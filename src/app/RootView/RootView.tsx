@@ -27,7 +27,7 @@ import {IndicatorTypeEnum} from '__utils/types';
 
 import packageJson from '../../../package.json';
 import AnimatedDummyTextView from '../AnimatedDummyTextView';
-import {MessagesListView} from '../Messages/MessageListView';
+import MessagesListView from '../Messages/MessageListView';
 import {ServicesListView} from '../States/ServiceListView';
 
 import style from './style.module.scss';

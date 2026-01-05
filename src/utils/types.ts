@@ -10,3 +10,7 @@ export type TagDto = {
     backgroundColor?: string;
     textColor?: string;
 };
+
+export type MessageDto = {
+    id: string;
+};
