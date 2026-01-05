@@ -1,0 +1,35 @@
+.message {
+    padding: 2px 12px;
+    margin: 2px;
+    border-radius: 5px;
+    width: 100%;
+
+}
+
+.hiddenFadeOut {
+  opacity: 0;
+  transition: visibility 0s 0.5s, opacity 0.5s linear;
+}
+
+.authorMessageContentSeparator {
+    vertical-align: middle;
+    color: white;
+    text-shadow:
+        1px 1px 0 black,
+        -1px 1px 0 black,
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        1px 0 black,
+        -1px 0 black,
+        0 1px black,
+        0 -1px black;
+
+    &::before {
+        content: "";
+    }
+}
+
+.contentContainer {
+    display: flex;
+    gap: 6px;
+}

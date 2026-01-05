@@ -1,0 +1,28 @@
+.serviceIndicator {
+    margin-right: 8px;
+}
+
+.bigText {
+    vertical-align: middle;
+    font-size: 40pt;
+    font-weight: 600;
+    color: white;
+    margin-right: 32px;
+    text-shadow:
+        2px 2px 0.5px black,
+        -2px 2px 0.5px black,
+        -2px -2px 0.5px black,
+        2px -2px 0.5px black,
+
+        2px 0 black,
+        -2px 0 black,
+        0 2px black,
+        0 -2px black;
+}
+
+.bigBadgeServiceIcon {
+    vertical-align: middle;
+    height: 50px;
+    width: 50px;
+    margin-right: 8px;
+}
