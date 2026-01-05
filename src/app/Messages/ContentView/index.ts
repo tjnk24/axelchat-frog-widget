@@ -1,1 +1,1 @@
-export {ContentView} from './ContentView';
+export {default} from './ContentView';

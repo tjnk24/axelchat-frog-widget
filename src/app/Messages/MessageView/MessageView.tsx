@@ -1,106 +1,97 @@
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import isEmpty from 'lodash/isEmpty';
+import {
+    CSSProperties,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 
-import {AuthorView} from '../AuthorView';
-import {ContentView} from '../ContentView';
-import {TimeView} from '../TimeView';
+import AuthorView from '../AuthorView';
+import ContentView from '../ContentView';
+import TimeView from '../TimeView';
+
+import {Props} from './types';
 
 import style from './style.module.scss';
 
-export class MessageView extends Component {
-    static propTypes = {
-        message: PropTypes.object.isRequired,
-        hideTimeout: PropTypes.number,
-        messageStyle: PropTypes.object,
-        showPlatformIcon: PropTypes.bool,
-    };
+const MessageView = ({
+    hideTimeout = 0,
+    message,
+    messageStyle,
+    showPlatformIcon = true,
+}: Props) => {
+    const [isNeedToHide, setIsNeedToHide] = useState(false);
 
-    static defaultProps = {
-        message: null,
-        hideTimeout: 0,
-        messageStyle: {},
-        showPlatformIcon: true,
-    };
+    const {
+        forcedColors,
+        publishedAt,
+        author,
+        multiline,
+    } = message || {};
 
-    constructor(props) {
-        super(props);
+    useEffect(() => {
+        const isNeedToHideTimeout = hideTimeout > 0 &&
+            setTimeout(() => {
+                setIsNeedToHide(true);
+            }, hideTimeout);
 
-        this.state = {
-            needToHide: false,
+        return () => {
+            isNeedToHideTimeout && clearTimeout(isNeedToHideTimeout);
+        };
+    }, [hideTimeout]);
+
+    const getMessageStyle = useMemo(() => {
+        const result: CSSProperties = {
+            ...messageStyle,
+            'backgroundColor': messageStyle?.['background-color'],
         };
 
-        if (props.hideTimeout > 0)
-        {
-            setTimeout(() =>
-            {
-                this.setState({
-                    needToHide: true,
-                });
-            }, props.hideTimeout);
+        delete result['background-color'];
+
+        if (forcedColors?.bodyBackground !== undefined) {
+            result['backgroundColor'] = forcedColors.bodyBackground;
         }
+
+        if (forcedColors?.bodyBorder !== undefined) {
+            result['borderWidth'] = '2px';
+            result['borderStyle'] = 'solid';
+            result['borderColor'] = forcedColors.bodyBorder;
+        }
+
+        return result;
+    }, [forcedColors, messageStyle]);
+
+    if (isEmpty(message)) {
+        return <span>NULL_MESSAGE</span>;
     }
 
-    getMessageStyle() {
-        const message = this.props?.['message'];
-        const forcedColors = message.forcedColors;
+    return (
+        <span
+            className={`${style.message} ${isNeedToHide ? style.hiddenFadeOut : ''}`}
+            style={getMessageStyle}
+        >
 
-        const r = {
-            ...this.props?.['messageStyle'],
-            'visibility': this.state?.['visibility'],
-            'backGroundColor': this.props?.['messageStyle']?.['background-color'],
-        };
+            <TimeView timeIso={publishedAt}/>
 
-        delete r['background-color'];
+            <br/>
 
-        if (forcedColors.bodyBackground !== undefined) {
-            r['backgroundColor'] = forcedColors.bodyBackground;
-        }
+            <AuthorView
+                author={author}
+                showPlatformIcon={showPlatformIcon}
+            />
 
-        if (forcedColors.bodyBorder !== undefined) {
-            r['borderWidth'] = '2px';
-            r['borderStyle'] = 'solid';
-            r['borderColor'] = forcedColors.bodyBorder;
-        }
+            {multiline ? <br/> : <span className={style.authorMessageContentSeparator}></span>}
 
-        return r;
-    }
-
-    render() {
-        const message = this.props?.['message'];
-        if (!message) {
-            return <span>NULL_MESSAGE</span>;
-        }
-
-        //console.log(message)
-        const multiline = this.props?.['message'].multiline;
-
-        return (
-            <span
-                className={`${style.message} ${this.state?.['needToHide'] ? style.hiddenFadeOut : ''}`}
-                style={this.getMessageStyle()}
-            >
-
-                <TimeView timeIso={message.publishedAt}/>
-
-                <br/>
-
-                <AuthorView author={message.author} showPlatformIcon={this.props?.['showPlatformIcon']}/>
-
-                {multiline ?
-                    (
-                        <br/>
-                    ) :
-                    (
-                        <span className={style.authorMessageContentSeparator}></span>
-                    )
-                }
-
-                <span>
-                    {message.contents.map((content, idx) => (
-                        <ContentView key={idx} content={content}/>
-                    ))}
-                </span>
+            <span>
+                {message.contents.map((content, idx) => (
+                    <ContentView
+                        key={idx}
+                        content={content}
+                    />
+                ))}
             </span>
-        );
-    }
-}
+        </span>
+    );
+};
+
+export default MessageView;

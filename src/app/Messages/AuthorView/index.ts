@@ -1,1 +1,1 @@
-export {AuthorView} from './AuthorView';
+export {default} from './AuthorView';

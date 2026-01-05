@@ -1,1 +1,1 @@
-export {MessagesListView} from './MessagesListView';
+export {default} from './MessagesListView';

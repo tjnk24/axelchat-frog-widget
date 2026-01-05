@@ -1,50 +1,85 @@
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import isEmpty from 'lodash/isEmpty';
+import {useMemo} from 'react';
+
+import {MessageContentTypeEnum} from '__utils/types';
+
+import {Props} from './types';
 
 import style from './style.module.scss';
 
-export class ContentView extends Component {
-    static propTypes = {
-        content: PropTypes.object.isRequired,
-    };
+const {
+    Html,
+    Hyperlink,
+    Image,
+    Text,
+} = MessageContentTypeEnum;
 
-    static defaultProps = {
-        content: null,
-    };
+const ContentView = ({content}: Props) => {
+    const {
+        data,
+        type,
+        htmlClassName,
+        style: contentStyle,
+    } = content;
 
-    render() {
-        const content = this.props?.['content'];
-        if (!content) {
-            return <span>null</span>;
+    const contentView = useMemo(() => {
+        switch (type) {
+            case Text:
+                return (
+                    <span
+                        className={style.text}
+                        style={{...contentStyle, 'whiteSpace': 'pre-line'}}
+                    >
+                        {data?.text}
+                    </span>
+                );
+
+            case Image:
+                return (
+                    <img
+                        className={htmlClassName}
+                        style={style}
+                        alt="content"
+                        src={data?.url}
+                    />
+                );
+
+            case Hyperlink:
+                return (
+                    <span>
+                        <a
+                            className={htmlClassName}
+                            style={{...contentStyle, 'whiteSpace': 'pre-line'}}
+                            href={data.url}
+                        >
+                            <span>{data.text}</span>
+                        </a>
+                    </span>
+                );
+
+            case Html:
+                return (
+                    <span
+                        className={htmlClassName}
+                        style={contentStyle}
+                        dangerouslySetInnerHTML={{__html: data.html}}
+                    />
+                );
+
+            default:
+                return (
+                    <div>
+                        Unknown content type &apos;{type}&apos;
+                    </div>
+                );
         }
+    }, [contentStyle, data, htmlClassName, type]);
 
-        const type = content.type;
-        const className = content.htmlClassName;
-        const data = content.data;
-        const contentStyle = content.style;
-
-        if (type === 'text') {
-            const text = data.text;
-
-            return <span className={style.text} style={{...contentStyle, 'whiteSpace': 'pre-line'}}>{text}</span>;
-        }
-        else if (type === 'image') {
-            return (<img className={className} style={style}
-                alt="" src={data.url}></img>);
-        }
-        else if (type === 'hyperlink') {
-            return (
-                <span> <a className={className} style={{...contentStyle, 'whiteSpace': 'pre-line'}}
-                    href={data.url}>
-                    <span>{data.text}</span>
-                </a> </span>
-            );
-        }
-        else if (type === 'html') {
-            return (<span className={className} style={contentStyle}
-                dangerouslySetInnerHTML={{__html: data.html}}/>);
-        }
-
-        return <div>Unknown content type &apos;{type}&apos;</div>;
+    if (isEmpty(content)) {
+        return <span>null</span>;
     }
-}
+
+    return contentView;
+};
+
+export default ContentView;

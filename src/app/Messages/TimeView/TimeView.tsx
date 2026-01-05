@@ -1,35 +1,15 @@
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import {Props} from './types';
 
 import style from './style.module.scss';
 
-export class TimeView extends Component {
-    static propTypes = {
-        timeIso: PropTypes.string.isRequired,
-    };
-
-    static defaultProps = {
-        timeIso: null,
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            timeText: '',
-        };
-
-        const date = new Date(props.timeIso);
-
-        this.state['timeText'] = date.toLocaleTimeString();
-    }
-
-    render() {
-        const timeText = this.state['timeText'];
-
-        return (
-            <span>
-                <span className={style.time}>{timeText}</span>
+const TimeView = ({timeIso}: Props) => {
+    return (
+        <span>
+            <span className={style.time}>
+                {new Date(timeIso).toLocaleTimeString()}
             </span>
-        );
-    }
-}
+        </span>
+    );
+};
+
+export default TimeView;

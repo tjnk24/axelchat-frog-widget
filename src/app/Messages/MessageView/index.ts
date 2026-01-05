@@ -1,1 +1,1 @@
-export {MessageView} from './MessageView';
+export {default} from './MessageView';

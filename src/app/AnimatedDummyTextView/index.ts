@@ -1,1 +1,2 @@
-export {AnimatedDummyTextView, IndicatorType} from './AnimatedDummyTextView';
+export {default} from './AnimatedDummyTextView';
+

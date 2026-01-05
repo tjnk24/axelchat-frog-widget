@@ -1,102 +1,98 @@
-import PropTypes from 'prop-types';
-import {Component} from 'react';
+import isEmpty from 'lodash/isEmpty';
+import {
+    useCallback,
+    useEffect,
+    useState,
+} from 'react';
 
-import {AnimatedDummyTextView, IndicatorType} from '../../AnimatedDummyTextView';
-import {MessageView} from '../MessageView';
+import {IndicatorTypeEnum} from '__utils/types';
+
+import AnimatedDummyTextView from '../../AnimatedDummyTextView';
+import MessageView from '../MessageView';
 import ScrollBottomButton from '../ScrollBottomButton';
+
+import {Props} from './types';
 
 import style from './style.module.scss';
 
-export class MessagesListView extends Component {
-    static propTypes = {
-        messages: PropTypes.array.isRequired,
-        hideTimeout: PropTypes.number,
-        hideConnectionStatusWhenConnected: PropTypes.bool,
-        messageStyle: PropTypes.object,
-        showPlatformIcon: PropTypes.bool,
-        isScrolledToBottom: PropTypes.bool,
-    };
+const MessagesListView = ({
+    hideConnectionStatusWhenConnected,
+    isScrolledToBottom,
+    messageStyle,
+    messages = [],
+    showPlatformIcon = true,
+    hideTimeout = 0,
+}: Props) => {
+    const [messagesEnd, setMessagesEnd] = useState<HTMLDivElement>();
 
-    static defaultProps = {
-        messages: [],
-        hideTimeout: 0,
-        hideConnectionStatusWhenConnected: false,
-        messageStyle: {},
-        showPlatformIcon: true,
-        isScrolledToBottom: false,
-    };
-
-    private messagesEnd: HTMLDivElement = null;
-
-    scrollToBottom = () => {
+    const scrollToBottom = useCallback(() => {
         if (
-            this.messagesEnd !== undefined
-            && this.messagesEnd !== null
-            && this.props?.['isScrolledToBottom']
+            messagesEnd !== undefined
+            && messagesEnd !== null
+            && isScrolledToBottom
         ) {
-            this.messagesEnd.scrollIntoView({behavior: 'smooth'});
+            messagesEnd.scrollIntoView({behavior: 'smooth'});
         }
+    }, [isScrolledToBottom, messagesEnd]);
+
+    const onScrollToBottomClick = () => {
+        messagesEnd.scrollIntoView({behavior: 'smooth'});
     };
 
-    onScrollToBottomClick = () => {
-        this.messagesEnd.scrollIntoView({behavior: 'smooth'});
-    };
+    useEffect(() => {
+        scrollToBottom();
+    }, [scrollToBottom]);
 
-    componentDidMount() {
-        this.scrollToBottom();
+    // componentDidUpdate() {
+    //     this.scrollToBottom();
+    // }
+
+    if (isEmpty(messages)) {
+        if (hideConnectionStatusWhenConnected) {
+            return null;
+        }
+
+        return (
+            <AnimatedDummyTextView
+                type={IndicatorTypeEnum.Success}
+                text="Connected!"
+            />
+        );
     }
 
-    componentDidUpdate() {
-        this.scrollToBottom();
-    }
-
-    render() {
-        if (this.props?.['messages'].length === 0) {
-            if (this.props?.['hideConnectionStatusWhenConnected']) {
-                return null;
-            }
-            else {
-                return (
-                    <AnimatedDummyTextView
-                        type={IndicatorType.Success}
-                        text="Connected!"
-                    />
-                );
-            }
-        } else {
-            return (
-                <div>
-                    <div className={style.list}>
-                        {this.props?.['messages'].map(message => (
-                            <div
-                                style={{display: 'flex', justifyContent: 'space-between'}}
-                                key={message.id}
-                            >
-                                <MessageView
-                                    message={message}
-                                    messageStyle={this.props?.['messageStyle']}
-                                    hideTimeout={this.props?.['hideTimeout']}
-                                    showPlatformIcon={this.props?.['showPlatformIcon']}
-                                />
-                            </div>
-                        ))}
-                    </div>
-
+    return (
+        <div>
+            <div className={style.list}>
+                {messages.map(message => (
                     <div
-                        style={{float: 'left', clear: 'both'}}
-                        ref={el => {
-                            this.messagesEnd = el;
-                        }}
-                    ></div>
+                        key={message.id}
+                        className={style.messageViewContainer}
+                    >
+                        <MessageView
+                            message={message}
+                            messageStyle={messageStyle}
+                            hideTimeout={hideTimeout}
+                            showPlatformIcon={showPlatformIcon}
+                        />
+                    </div>
+                ))}
+            </div>
 
-                    {
-                        this.messagesEnd !== undefined
-                        && this.messagesEnd !== null
-                        && !this.props?.['isScrolledToBottom'] &&
-                        <ScrollBottomButton onClick={this.onScrollToBottomClick}/>
-                    }
-                </div>
-            );
-        }
-    }
-}
+            <div
+                className={style.messagesEnd}
+                ref={element => {
+                    setMessagesEnd(element);
+                }}
+            ></div>
+
+            {
+                messagesEnd !== undefined
+                && messagesEnd !== null
+                && !isScrolledToBottom &&
+                <ScrollBottomButton onClick={onScrollToBottomClick}/>
+            }
+        </div>
+    );
+};
+
+export default MessagesListView;
