@@ -1,1 +1,1 @@
-export {TimeView} from './TimeView';
+export {default} from './TimeView';

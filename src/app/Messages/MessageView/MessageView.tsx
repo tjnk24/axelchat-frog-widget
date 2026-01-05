@@ -8,7 +8,7 @@ import {
 
 import AuthorView from '../AuthorView';
 import ContentView from '../ContentView';
-import {TimeView} from '../TimeView';
+import TimeView from '../TimeView';
 
 import {Props} from './types';
 
