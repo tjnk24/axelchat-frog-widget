@@ -4,3 +4,9 @@ export enum IndicatorTypeEnum {
     Loading = 'Loading',
     Critical = 'Critical',
 };
+
+export type TagDto = {
+    text?: string;
+    backgroundColor?: string;
+    textColor?: string;
+};

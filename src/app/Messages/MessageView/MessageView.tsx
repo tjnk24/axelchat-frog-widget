@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import {Component} from 'react';
 
-import {AuthorView} from '../AuthorView';
+import AuthorView from '../AuthorView';
 import {ContentView} from '../ContentView';
 import {TimeView} from '../TimeView';
 
