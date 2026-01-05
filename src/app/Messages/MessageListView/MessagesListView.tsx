@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import {Component} from 'react';
 
-import {AnimatedDummyTextView, IndicatorType} from '../../AnimatedDummyTextView';
+import {IndicatorTypeEnum} from '__utils/types';
+
+import AnimatedDummyTextView from '../../AnimatedDummyTextView';
 import {MessageView} from '../MessageView';
 import ScrollBottomButton from '../ScrollBottomButton';
 
@@ -58,7 +60,7 @@ export class MessagesListView extends Component {
             else {
                 return (
                     <AnimatedDummyTextView
-                        type={IndicatorType.Success}
+                        type={IndicatorTypeEnum.Success}
                         text="Connected!"
                     />
                 );

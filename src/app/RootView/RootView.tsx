@@ -23,8 +23,10 @@ import {
 import {useSearchParams} from 'react-router-dom';
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 
+import {IndicatorTypeEnum} from '__utils/types';
+
 import packageJson from '../../../package.json';
-import {AnimatedDummyTextView, IndicatorType} from '../AnimatedDummyTextView';
+import AnimatedDummyTextView from '../AnimatedDummyTextView';
 import {MessagesListView} from '../Messages/MessageListView';
 import {ServicesListView} from '../States/ServiceListView';
 
@@ -332,7 +334,7 @@ export const RootView = () => {
     else {
         return (
             <AnimatedDummyTextView
-                type={readyState === ReadyState.CONNECTING ? IndicatorType.Loading : IndicatorType.Critical}
+                type={readyState === ReadyState.CONNECTING ? IndicatorTypeEnum.Loading : IndicatorTypeEnum.Critical}
                 text={connectionStatus}/>
         );
     }
