@@ -18,7 +18,6 @@ const {
     NewMessagesReceived,
     Ping,
     Pong,
-    ServerClose,
     SettingsUpdated,
     StatesChanged,
 } = ProtocolMessageTypeEnum;
@@ -80,7 +79,6 @@ export const useProtocolMessageEffect = (lastMessage: MessageEvent, sendMessage:
                 break;
             case Hello:
             case Pong:
-            case ServerClose:
                 break;
             default:
                 // eslint-disable-next-line no-console

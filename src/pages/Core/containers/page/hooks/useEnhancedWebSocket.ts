@@ -1,6 +1,9 @@
 import {
     browserName,
     fullBrowserVersion,
+    isMobile,
+    mobileModel,
+    mobileVendor,
     osName,
     osVersion,
 } from 'react-device-detect';
@@ -10,7 +13,6 @@ import useWebSocket from 'react-use-websocket';
 import {ProtocolMessageTypeEnum} from '__utils/types';
 
 import packageJson from '../../../../../../package.json';
-import {getDeviceName} from '../utils/getDeviceName';
 import {getDeviceType} from '../utils/getDeviceType';
 import {getEventLogging} from '../utils/getEventLogging';
 import {getWebSocketUrl} from '../utils/getWebsocketUrl';
@@ -34,7 +36,7 @@ export const useEnhancedWebSocket = () => {
                         version: packageJson.version,
                         device: {
                             type: getDeviceType(),
-                            name: getDeviceName(),
+                            name: isMobile ? `${mobileVendor}, ${mobileModel}` : '',
                             os: {
                                 name: osName,
                                 version: osVersion,

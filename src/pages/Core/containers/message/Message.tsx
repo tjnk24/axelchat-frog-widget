@@ -30,7 +30,7 @@ const Message = ({message}: Props) => {
     const hideTimeout = widgetType === WidgetTypeEnum.Messages ? messages.hideTimeout : 0;
 
     const {
-        forcedColors,
+        bodyStyle,
         publishedAt,
         author,
         multiline,
@@ -55,18 +55,18 @@ const Message = ({message}: Props) => {
 
         delete result['background-color'];
 
-        if (forcedColors?.bodyBackground !== undefined) {
-            result['backgroundColor'] = forcedColors.bodyBackground;
+        if (bodyStyle?.backgroundColor) {
+            result['backgroundColor'] = bodyStyle.backgroundColor;
         }
 
-        if (forcedColors?.bodyBorder !== undefined) {
+        if (bodyStyle?.borderColor) {
             result['borderWidth'] = '2px';
             result['borderStyle'] = 'solid';
-            result['borderColor'] = forcedColors.bodyBorder;
+            result['borderColor'] = bodyStyle.borderColor;
         }
 
         return result;
-    }, [forcedColors, messages.style]);
+    }, [bodyStyle, messages.style]);
 
     if (isEmpty(message)) {
         return <span>NULL_MESSAGE</span>;
@@ -78,7 +78,6 @@ const Message = ({message}: Props) => {
                 className={`${style.message} ${isNeedToHide ? style.hiddenFadeOut : ''}`}
                 style={getMessageStyle}
             >
-
                 <span className={style.time}>
                     {new Date(publishedAt).toLocaleTimeString()}
                 </span>

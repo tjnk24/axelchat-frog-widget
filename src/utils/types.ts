@@ -73,7 +73,6 @@ export type MessageDto = {
     mentionedYouAs?: string;
     multiline?: boolean;
     publishedAt?: string;
-    forcedColors?: ForcedColorsDto;
     raw?: Record<string, unknown>;
     rawType?: string;
     receivedAt?: string;
@@ -92,7 +91,6 @@ export enum ProtocolMessageTypeEnum {
     Hello = 'HELLO',
     Ping = 'PING',
     Pong = 'PONG',
-    ServerClose = 'SERVER_CLOSE',
 }
 
 export enum DeviceTypeEnum {
@@ -208,16 +206,6 @@ export type ProtocolMessagePong = {
     data: null;
 };
 
-export type ProtocolMessageServerClose = {
-    type?: ProtocolMessageTypeEnum.ServerClose;
-    data: null;
-};
-
-export type ProtocolMessageUserUpdated = {
-    type?: ProtocolMessageTypeEnum.ServerClose;
-    data: null;
-};
-
 export type ProtocolMessageNeedReload = {
     type?: ProtocolMessageTypeEnum.NeedReload;
     data: null;
@@ -254,7 +242,6 @@ export type ProtocolMessage =
     | ProtocolMessageSettingsUpdated
     | ProtocolMessagePing
     | ProtocolMessagePong
-    | ProtocolMessageServerClose
     | ProtocolMessageMessagesChanged
     | ProtocolMessageNeedReload
     | ProtocolMessageClearMessages
