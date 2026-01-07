@@ -1,3 +1,9 @@
+.author {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
 .authorName {
     font-weight: bold;
     vertical-align: middle;

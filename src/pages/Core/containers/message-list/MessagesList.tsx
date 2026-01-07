@@ -2,12 +2,12 @@ import isEmpty from 'lodash/isEmpty';
 import {useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 
+import arrowUp from '__images/arrow-down.svg';
 import {appStateSettingsWidgetsSelector} from '__selectors/appStateSelectors';
 import {IndicatorTypeEnum} from '__utils/types';
 
 import AnimatedDummyText from '../../components/animated-dummy-text';
 import Message from '../message';
-import ScrollBottomButton from '../scroll-bottom-button';
 
 import {Props} from './types';
 import {checkIfScrolledToBottom} from './utils/checkIfScrolledToBottom';
@@ -62,7 +62,20 @@ const MessagesList = ({messages = []}: Props) => {
                 ))}
             </div>
 
-            {!isScrolledToBottom && <ScrollBottomButton onClick={onScrollToBottomClick}/>}
+            {!isScrolledToBottom && (
+                <div className={style.buttonContainer}>
+                    <button
+                        onClick={onScrollToBottomClick}
+                        className={style.button}
+                    >
+                        <img
+                            className={style.icon}
+                            src={arrowUp}
+                            alt="arrow-up icon"
+                        />
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

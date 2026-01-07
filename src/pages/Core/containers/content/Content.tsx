@@ -53,22 +53,20 @@ const Content = ({content}: Props) => {
 
             case Hyperlink:
                 return (
-                    <span>
-                        <a
-                            className={htmlClassName}
-                            style={{...formattedContentStyle, 'whiteSpace': 'pre-line'}}
-                            href={data.url}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <span>{data.text}</span>
-                        </a>
-                    </span>
+                    <a
+                        className={cn(style.hyperlink, htmlClassName)}
+                        style={{...formattedContentStyle, 'whiteSpace': 'pre-line'}}
+                        href={data.url}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {data.text}
+                    </a>
                 );
 
             case Html:
                 return (
-                    <span
+                    <div
                         className={htmlClassName}
                         style={formattedContentStyle}
                         dangerouslySetInnerHTML={{__html: data.html}}

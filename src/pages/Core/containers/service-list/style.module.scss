@@ -1,3 +1,9 @@
+.services {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
 .serviceIndicator {
     margin-right: 8px;
     white-space: nowrap;

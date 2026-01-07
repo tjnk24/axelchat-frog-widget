@@ -88,7 +88,7 @@ module.exports = {
             directory: 'build',
         },
         liveReload: false,
-        open: true,
+        open: ['/?widget=messages&ws-url=ws://127.0.0.1:8356&event-logging=true'],
         port: process.env.PORT,
         hot: true,
         historyApiFallback: true,

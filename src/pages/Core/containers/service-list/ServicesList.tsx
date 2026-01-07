@@ -22,7 +22,7 @@ const ServicesList = () => {
         }
 
         return (
-            <span className={style.serviceIndicator}>
+            <div className={style.serviceIndicator}>
                 <img
                     className={style.bigBadgeServiceIcon}
                     alt="big badge service icon"
@@ -32,12 +32,12 @@ const ServicesList = () => {
                 <span className={style.bigText}>
                     {viewers > -1 ? viewers.toLocaleString() : '?'}
                 </span>
-            </span>
+            </div>
         );
     }, [hidePlatformIconIfCountIsUnknown, services, viewers]);
 
     return (
-        <span>
+        <div className={style.services}>
             {services.map((service, index) => (
                 <ServiceView
                     key={index}
@@ -47,7 +47,7 @@ const ServicesList = () => {
             ))}
 
             {totalViewersView}
-        </span>
+        </div>
     );
 };
 

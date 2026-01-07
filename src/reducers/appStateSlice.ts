@@ -24,6 +24,7 @@ const initialState: AppStateSlice = {
     authors: [],
     statesChangedData: {
         viewers: -1,
+        services: [],
     },
     settings: {
         widgets: {

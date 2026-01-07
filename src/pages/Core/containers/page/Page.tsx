@@ -1,3 +1,4 @@
+import {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {useSearchParams} from 'react-router-dom';
 import {ReadyState} from 'react-use-websocket';
@@ -32,7 +33,7 @@ const Page = () => {
 
     useProtocolMessageEffect(lastMessage, sendMessage);
 
-    if (readyState === ReadyState.OPEN) {
+    const widget = useMemo(() => {
         const widgetType = searchParams.get('widget');
 
         switch (widgetType) {
@@ -46,6 +47,10 @@ const Page = () => {
             default:
                 return <span className={style.errorText}>Error: unknown widget</span>;
         }
+    }, [messages, searchParams, selectedMessages]);
+
+    if (readyState === ReadyState.OPEN) {
+        return widget;
     }
 
     return (

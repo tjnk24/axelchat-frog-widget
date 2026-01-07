@@ -16,6 +16,12 @@
   }
 }
 
+.root {
+    display: flex;
+    align-items: center;
+    margin: 12px 6px;
+}
+
 .text {
     vertical-align: middle;
     color: white;

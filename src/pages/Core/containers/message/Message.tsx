@@ -13,7 +13,6 @@ import {WidgetTypeEnum} from '__utils/types';
 
 import Author from '../author';
 import Content from '../content';
-import Time from '../time';
 
 import {Props} from './types';
 
@@ -80,7 +79,9 @@ const Message = ({message}: Props) => {
                 style={getMessageStyle}
             >
 
-                <Time timeIso={publishedAt}/>
+                <span className={style.time}>
+                    {new Date(publishedAt).toLocaleTimeString()}
+                </span>
 
                 <br/>
 
@@ -88,14 +89,14 @@ const Message = ({message}: Props) => {
 
                 {multiline ? <br/> : <span className={style.authorMessageContentSeparator}></span>}
 
-                <span>
+                <div>
                     {message.contents.map((content, idx) => (
                         <Content
                             key={idx}
                             content={content}
                         />
                     ))}
-                </span>
+                </div>
             </span>
         </div>
     );

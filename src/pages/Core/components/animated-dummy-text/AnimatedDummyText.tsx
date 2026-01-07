@@ -52,13 +52,13 @@ const AnimatedDummyText = ({text = 'TEXT', type = Loading}: Props) => {
     }, [type]);
 
     return (
-        <>
+        <div className={style.root}>
             {icon}
 
             <span className={style.text}>
                 {text}
             </span>
-        </>
+        </div>
     );
 };
 

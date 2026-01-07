@@ -28,27 +28,25 @@ const Author = ({author}: Props) => {
     } = author || {};
 
     return (
-        <span>
+        <div className={style.author}>
             {showPlatformIcon && (
-                <span>
-                    <img
-                        className={style.badgeServiceIcon}
-                        alt="service icon"
-                        src={serviceBadge}
-                    />
-                </span>
+                <img
+                    className={style.badgeServiceIcon}
+                    alt="service icon"
+                    src={serviceBadge}
+                />
             )}
 
-            <span>
+            <div>
                 {leftTags.map((tag, index) => (
                     <Tag
                         key={index}
                         tag={tag}
                     />
                 ))}
-            </span>
+            </div>
 
-            <span>
+            <div>
                 {leftBadges.map((badgeUrl, index) => (
                     <img
                         key={index}
@@ -57,7 +55,7 @@ const Author = ({author}: Props) => {
                         src={badgeUrl}
                     />
                 ))}
-            </span>
+            </div>
 
             <span
                 className={`${style.authorName} ${customBackgroundColor.length > 0 ? style.authorNameCustomBackgroundColor : ''}`}
@@ -66,7 +64,7 @@ const Author = ({author}: Props) => {
                 {name}
             </span>
 
-            <span>
+            <div>
                 {rightBadges.map((badgeUrl, idx) => (
                     <img
                         key={idx}
@@ -75,14 +73,14 @@ const Author = ({author}: Props) => {
                         src={badgeUrl}
                     />
                 ))}
-            </span>
+            </div>
 
-            <span>
+            <div>
                 {rightTags.map((tag, idx) => (
                     <Tag key={idx} tag={tag}/>
                 ))}
-            </span>
-        </span>
+            </div>
+        </div>
     );
 };
 
