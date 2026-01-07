@@ -1,6 +1,8 @@
+import cn from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import {useMemo} from 'react';
 
+import {kebabCaseKeysToCamelCase} from '__utils/kebabCaseKeysToCamelCase';
 import {MessageContentTypeEnum} from '__utils/types';
 
 import {Props} from './types';
@@ -23,12 +25,17 @@ const Content = ({content}: Props) => {
     } = content;
 
     const contentView = useMemo(() => {
+        const formattedContentStyle = kebabCaseKeysToCamelCase(contentStyle);
+
         switch (type) {
             case Text:
                 return (
                     <span
                         className={style.text}
-                        style={{...contentStyle, 'whiteSpace': 'pre-line'}}
+                        style={{
+                            ...formattedContentStyle,
+                            'whiteSpace': 'pre-line',
+                        }}
                     >
                         {data?.text}
                     </span>
@@ -37,7 +44,7 @@ const Content = ({content}: Props) => {
             case Image:
                 return (
                     <img
-                        className={htmlClassName}
+                        className={cn(htmlClassName, style.image)}
                         style={style}
                         alt="content"
                         src={data?.url}
@@ -49,7 +56,7 @@ const Content = ({content}: Props) => {
                     <span>
                         <a
                             className={htmlClassName}
-                            style={{...contentStyle, 'whiteSpace': 'pre-line'}}
+                            style={{...formattedContentStyle, 'whiteSpace': 'pre-line'}}
                             href={data.url}
                         >
                             <span>{data.text}</span>
@@ -61,7 +68,7 @@ const Content = ({content}: Props) => {
                 return (
                     <span
                         className={htmlClassName}
-                        style={contentStyle}
+                        style={formattedContentStyle}
                         dangerouslySetInnerHTML={{__html: data.html}}
                     />
                 );

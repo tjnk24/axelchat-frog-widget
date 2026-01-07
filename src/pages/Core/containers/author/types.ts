@@ -1,8 +1,7 @@
-import {MessageAuthorDto} from '__utils/types';
+import {AuthorDto} from '__utils/types';
 
 interface OwnProps {
-    author?: MessageAuthorDto;
-    showPlatformIcon?: boolean;
+    author?: AuthorDto;
 }
 
 export type Props = OwnProps;

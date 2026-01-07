@@ -1,7 +1,7 @@
-import {MessageContentDto} from '__utils/types';
+import {ContentDto} from '__utils/types';
 
 interface OwnProps {
-    content?: MessageContentDto;
+    content?: ContentDto;
 }
 
 export type Props = OwnProps;
