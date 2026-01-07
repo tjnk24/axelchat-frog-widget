@@ -14,6 +14,8 @@ export type AppStateSlice = {
     authors: AuthorDto[];
     statesChangedData: ProtocolMessageStatesChangedData;
     settings: SettingsDto;
+    listRef: EventTarget & HTMLDivElement;
+    isScrolledToBottom: boolean;
 };
 
 const initialState: AppStateSlice = {
@@ -38,31 +40,41 @@ const initialState: AppStateSlice = {
         },
         locale: getNavigatorLanguage(),
     },
+    listRef: null,
+    isScrolledToBottom: true,
 };
 
 export const appStateSlice = createSlice({
     name: 'appStateSlice',
     initialState,
     reducers: {
-        setMessages: (state, {payload}: PayloadAction<MessageDto[]>) => ({
+        setMessages: (state, {payload}: PayloadAction<AppStateSlice['messages']>) => ({
             ...state,
             messages: payload,
         }),
-        setSelectedMessages: (state, {payload}: PayloadAction<MessageDto[]>) => ({
+        setSelectedMessages: (state, {payload}: PayloadAction<AppStateSlice['selectedMessages']>) => ({
             ...state,
             selectedMessages: payload,
         }),
-        setAuthors: (state, {payload}: PayloadAction<AuthorDto[]>) => ({
+        setAuthors: (state, {payload}: PayloadAction<AppStateSlice['authors']>) => ({
             ...state,
             authors: payload,
         }),
-        setStateChangedData: (state, {payload}: PayloadAction<ProtocolMessageStatesChangedData>) => ({
+        setStateChangedData: (state, {payload}: PayloadAction<AppStateSlice['statesChangedData']>) => ({
             ...state,
             statesChangedData: payload,
         }),
-        setSettings: (state, {payload}: PayloadAction<SettingsDto>) => ({
+        setSettings: (state, {payload}: PayloadAction<AppStateSlice['settings']>) => ({
             ...state,
             settings: payload,
+        }),
+        setListRef: (state, {payload}: PayloadAction<AppStateSlice['listRef']>) => ({
+            ...state,
+            listRef: payload,
+        }),
+        setIsScrolledToBottom: (state, {payload}: PayloadAction<AppStateSlice['isScrolledToBottom']>) => ({
+            ...state,
+            isScrolledToBottom: payload,
         }),
     },
 });

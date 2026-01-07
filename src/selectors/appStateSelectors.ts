@@ -41,3 +41,13 @@ export const appStateSettingsWidgetsStatesSelector = createSelector(
     appStateSettingsWidgetsSelector,
     ({states}) => states,
 );
+
+export const appStateListRefSelector = createSelector(
+    appStateSelector,
+    ({listRef}) => listRef,
+);
+
+export const appStateIsScrolledToBottomSelector = createSelector(
+    appStateSelector,
+    ({isScrolledToBottom}) => isScrolledToBottom,
+);

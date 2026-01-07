@@ -2,6 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import {
     appStateAuthorsSelector,
+    appStateListRefSelector,
     appStateMessagesSelector,
     appStateSelector,
 } from '__selectors/appStateSelectors';
@@ -16,7 +17,15 @@ import {
 
 class AppService {
     public onNewMessages = (messages: MessageDto[]) => {
-        const appState = appStateSelector(getStore());
+        const store = getStore();
+
+        const listRef = appStateListRefSelector(store);
+
+        const isScrolledToBottom = (listRef?.scrollHeight - listRef?.offsetHeight - listRef?.scrollTop) < 1;
+
+        commonActions.appState.setIsScrolledToBottom(isScrolledToBottom);
+
+        const appState = appStateSelector(store);
 
         const newMessages: MessageDto[] = [...appState.messages, ...messages];
         const newAuthors: AuthorDto[] = [...appState.authors, ...messages.map(({author}) => author)];

@@ -20,7 +20,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware => {
         const logger = createLogger({collapsed: true}) as Middleware;
 
-        return getDefaultMiddleware().concat(logger);
+        return getDefaultMiddleware({serializableCheck: false}).concat(logger);
     },
 });
 
