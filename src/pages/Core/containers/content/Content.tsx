@@ -58,6 +58,8 @@ const Content = ({content}: Props) => {
                             className={htmlClassName}
                             style={{...formattedContentStyle, 'whiteSpace': 'pre-line'}}
                             href={data.url}
+                            target="_blank"
+                            rel="noreferrer"
                         >
                             <span>{data.text}</span>
                         </a>
