@@ -1,4 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
+import {useSelector} from 'react-redux';
+
+import {appStateSettingsWidgetsMessagesSelector} from '__selectors/appStateSelectors';
 
 import Tag from '../../components/tag';
 
@@ -6,7 +9,9 @@ import {Props} from './types';
 
 import style from './style.module.scss';
 
-const Author = ({author, showPlatformIcon = true}: Props) => {
+const Author = ({author}: Props) => {
+    const {showPlatformIcon} = useSelector(appStateSettingsWidgetsMessagesSelector);
+
     if (isEmpty(author)) {
         return <span>NULL_AUTHOR</span>;
     }

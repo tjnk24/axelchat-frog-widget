@@ -7,6 +7,7 @@ import {
 import {createLogger} from 'redux-logger';
 
 import reducerRegistry from './reducerRegistry';
+import {CommonStore} from './types';
 
 export const combinedReducer = combineReducers(reducerRegistry.reducers);
 
@@ -28,3 +29,7 @@ reducerRegistry.setChangeListener(reducers => {
 
     store.dispatch({type: '@@redux/RECOMBINE'});
 });
+
+export const getStore = <T extends CommonStore>(): T => {
+    return store.getState() as T;
+};

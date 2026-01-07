@@ -10,10 +10,16 @@ import {Props} from './types';
 
 import style from './style.module.scss';
 
-const AnimatedDummyText = ({text = 'TEXT', type = IndicatorTypeEnum.Loading}: Props) => {
+const {
+    Critical,
+    Loading,
+    Success,
+} = IndicatorTypeEnum;
+
+const AnimatedDummyText = ({text = 'TEXT', type = Loading}: Props) => {
     const icon = useMemo(() => {
         switch (type) {
-            case IndicatorTypeEnum.Loading:
+            case Loading:
                 return (
                     <img
                         className={cn(style.icon, style.iconLoading)}
@@ -22,7 +28,7 @@ const AnimatedDummyText = ({text = 'TEXT', type = IndicatorTypeEnum.Loading}: Pr
                     />
                 );
 
-            case IndicatorTypeEnum.Success:
+            case Success:
                 return (
                     <img
                         className={style.icon}
@@ -31,7 +37,7 @@ const AnimatedDummyText = ({text = 'TEXT', type = IndicatorTypeEnum.Loading}: Pr
                     />
                 );
 
-            case IndicatorTypeEnum.Critical:
+            case Critical:
                 return (
                     <img
                         className={style.icon}

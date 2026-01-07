@@ -1,26 +1,25 @@
 import {useMemo} from 'react';
+import {useSelector} from 'react-redux';
+
+import {appStateSettingsWidgetsStatesSelector, appStateStatesChangedDataSelector} from '__selectors/appStateSelectors';
 
 import ServiceView from '../service';
 
-import {Props} from './types';
 import {getVisiblePlatformsCount} from './utils/getVisiblePlatformsCount';
 import {isVisiblePlatform} from './utils/isVisiblePlatform';
 
 import style from './style.module.scss';
 
-const ServicesList = ({
-    appState,
-    hidePlatformIconIfCountIsUnknown,
-    services = [],
-}: Props) => {
+const ServicesList = () => {
+    const {services, viewers} = useSelector(appStateStatesChangedDataSelector);
+    const {hidePlatformIconIfCountIsUnknown} = useSelector(appStateSettingsWidgetsStatesSelector);
+
     const totalViewersView = useMemo(() => {
         const enabledSourcesCount = getVisiblePlatformsCount(services, hidePlatformIconIfCountIsUnknown);
 
         if (enabledSourcesCount === 1) {
             return null;
         }
-
-        const {viewers} = appState || {};
 
         return (
             <span className={style.serviceIndicator}>
@@ -35,17 +34,16 @@ const ServicesList = ({
                 </span>
             </span>
         );
-    }, [appState, hidePlatformIconIfCountIsUnknown, services]);
+    }, [hidePlatformIconIfCountIsUnknown, services, viewers]);
 
     return (
         <span>
-            {services.map((service, idx) => (
-                <span
-                    key={idx}
-                    style={{display: isVisiblePlatform(service, hidePlatformIconIfCountIsUnknown) ? 'inherit' : 'none'}}
-                >
-                    <ServiceView service={service}/>
-                </span>
+            {services.map((service, index) => (
+                <ServiceView
+                    key={index}
+                    service={service}
+                    isVisiblePlatform={isVisiblePlatform(service, hidePlatformIconIfCountIsUnknown)}
+                />
             ))}
 
             {totalViewersView}

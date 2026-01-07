@@ -5,6 +5,11 @@ import {
     useMemo,
     useState,
 } from 'react';
+import {useSelector} from 'react-redux';
+import {useSearchParams} from 'react-router-dom';
+
+import {appStateSettingsWidgetsMessagesSelector} from '__selectors/appStateSelectors';
+import {WidgetTypeEnum} from '__utils/types';
 
 import Author from '../author';
 import Content from '../content';
@@ -14,13 +19,16 @@ import {Props} from './types';
 
 import style from './style.module.scss';
 
-const Message = ({
-    hideTimeout = 0,
-    message,
-    messageStyle,
-    showPlatformIcon = true,
-}: Props) => {
+const Message = ({message}: Props) => {
+    const messages = useSelector(appStateSettingsWidgetsMessagesSelector);
+
     const [isNeedToHide, setIsNeedToHide] = useState(false);
+
+    const [searchParams] = useSearchParams();
+
+    const widgetType = searchParams.get('widget');
+
+    const hideTimeout = widgetType === WidgetTypeEnum.Messages ? messages.hideTimeout : 0;
 
     const {
         forcedColors,
@@ -42,8 +50,8 @@ const Message = ({
 
     const getMessageStyle = useMemo(() => {
         const result: CSSProperties = {
-            ...messageStyle,
-            'backgroundColor': messageStyle?.['background-color'],
+            ...messages.style,
+            'backgroundColor': messages.style?.['background-color'],
         };
 
         delete result['background-color'];
@@ -59,38 +67,37 @@ const Message = ({
         }
 
         return result;
-    }, [forcedColors, messageStyle]);
+    }, [forcedColors, messages.style]);
 
     if (isEmpty(message)) {
         return <span>NULL_MESSAGE</span>;
     }
 
     return (
-        <span
-            className={`${style.message} ${isNeedToHide ? style.hiddenFadeOut : ''}`}
-            style={getMessageStyle}
-        >
+        <div className={style.messageViewContainer}>
+            <span
+                className={`${style.message} ${isNeedToHide ? style.hiddenFadeOut : ''}`}
+                style={getMessageStyle}
+            >
 
-            <Time timeIso={publishedAt}/>
+                <Time timeIso={publishedAt}/>
 
-            <br/>
+                <br/>
 
-            <Author
-                author={author}
-                showPlatformIcon={showPlatformIcon}
-            />
+                <Author author={author}/>
 
-            {multiline ? <br/> : <span className={style.authorMessageContentSeparator}></span>}
+                {multiline ? <br/> : <span className={style.authorMessageContentSeparator}></span>}
 
-            <span>
-                {message.contents.map((content, idx) => (
-                    <Content
-                        key={idx}
-                        content={content}
-                    />
-                ))}
+                <span>
+                    {message.contents.map((content, idx) => (
+                        <Content
+                            key={idx}
+                            content={content}
+                        />
+                    ))}
+                </span>
             </span>
-        </span>
+        </div>
     );
 };
 

@@ -8,7 +8,7 @@ import {
     isEmbedded,
 } from 'react-device-detect';
 
-import {DeviceTypeEnum} from '../types';
+import {DeviceTypeEnum} from '__utils/types';
 
 const {
     Desktop,

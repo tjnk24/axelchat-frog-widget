@@ -1,10 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
-import {
-    useCallback,
-    useEffect,
-    useState,
-} from 'react';
+import {useSelector} from 'react-redux';
 
+import {appStateSettingsWidgetsSelector} from '__selectors/appStateSelectors';
 import {IndicatorTypeEnum} from '__utils/types';
 
 import AnimatedDummyText from '../../components/animated-dummy-text';
@@ -15,37 +12,8 @@ import {Props} from './types';
 
 import style from './style.module.scss';
 
-const MessagesList = ({
-    hideConnectionStatusWhenConnected,
-    isScrolledToBottom,
-    messageStyle,
-    messages = [],
-    showPlatformIcon = true,
-    hideTimeout = 0,
-}: Props) => {
-    const [messagesEnd, setMessagesEnd] = useState<HTMLDivElement>();
-
-    const scrollToBottom = useCallback(() => {
-        if (
-            messagesEnd !== undefined
-            && messagesEnd !== null
-            && isScrolledToBottom
-        ) {
-            messagesEnd.scrollIntoView({behavior: 'smooth'});
-        }
-    }, [isScrolledToBottom, messagesEnd]);
-
-    const onScrollToBottomClick = () => {
-        messagesEnd.scrollIntoView({behavior: 'smooth'});
-    };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [scrollToBottom]);
-
-    // componentDidUpdate() {
-    //     this.scrollToBottom();
-    // }
+const MessagesList = ({messages = []}: Props) => {
+    const {hideConnectionStatusWhenConnected} = useSelector(appStateSettingsWidgetsSelector);
 
     if (isEmpty(messages)) {
         if (hideConnectionStatusWhenConnected) {
@@ -64,33 +32,14 @@ const MessagesList = ({
         <div>
             <div className={style.list}>
                 {messages.map(message => (
-                    <div
+                    <Message
                         key={message.id}
-                        className={style.messageViewContainer}
-                    >
-                        <Message
-                            message={message}
-                            messageStyle={messageStyle}
-                            hideTimeout={hideTimeout}
-                            showPlatformIcon={showPlatformIcon}
-                        />
-                    </div>
+                        message={message}
+                    />
                 ))}
             </div>
 
-            <div
-                className={style.messagesEnd}
-                ref={element => {
-                    setMessagesEnd(element);
-                }}
-            ></div>
-
-            {
-                messagesEnd !== undefined
-                && messagesEnd !== null
-                && !isScrolledToBottom &&
-                <ScrollBottomButton onClick={onScrollToBottomClick}/>
-            }
+            {/* <ScrollBottomButton onClick={onScrollToBottomClick}/> */}
         </div>
     );
 };
