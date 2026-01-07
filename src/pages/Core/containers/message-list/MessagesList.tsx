@@ -6,7 +6,7 @@ import {IndicatorTypeEnum} from '__utils/types';
 
 import AnimatedDummyText from '../../components/animated-dummy-text';
 import Message from '../message';
-import ScrollBottomButton from '../scroll-bottom-button';
+// import ScrollBottomButton from '../scroll-bottom-button';
 
 import {Props} from './types';
 

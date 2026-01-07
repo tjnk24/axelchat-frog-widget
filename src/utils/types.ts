@@ -49,7 +49,7 @@ export type ContentDataDto = {
 export type ContentDto = {
     data: ContentDataDto;
     htmlClassName?: string;
-    style?: CSSProperties;
+    style?: Record<string, string>;
     type: MessageContentTypeEnum;
 }
 

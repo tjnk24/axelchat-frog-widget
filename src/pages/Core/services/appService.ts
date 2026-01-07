@@ -52,7 +52,7 @@ class AppService {
                 // eslint-disable-next-line no-console
                 isEventLogging && console.log(`changed ${prevMessage} to ${message}`);
 
-                return Object.assign(prevMessage, message);
+                return Object.assign({...prevMessage}, message);
             }
 
             return message;

@@ -3,8 +3,8 @@ import {createSelector} from 'reselect';
 import {CommonStore} from '__store/types';
 
 export const appStateSelector = createSelector(
-    (state: CommonStore) => state.appState,
-    data => data,
+    (state: CommonStore) => state,
+    ({appState}) => appState,
 );
 
 export const appStateMessagesSelector = createSelector(
