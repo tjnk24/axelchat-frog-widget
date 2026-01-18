@@ -1,7 +1,10 @@
 import cn from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import {useMemo} from 'react';
+import {useSelector} from 'react-redux';
 
+import {appStateListRefSelector} from '__selectors/appStateSelectors';
+import {checkIfScrolledToBottom} from '__utils/checkIfScrolledToBottom';
 import {kebabCaseKeysToCamelCase} from '__utils/kebabCaseKeysToCamelCase';
 import {MessageContentTypeEnum} from '__utils/types';
 
@@ -17,6 +20,8 @@ const {
 } = MessageContentTypeEnum;
 
 const Content = ({content}: Props) => {
+    const listRef = useSelector(appStateListRefSelector);
+
     const {
         data,
         type,
@@ -48,6 +53,11 @@ const Content = ({content}: Props) => {
                         style={style}
                         alt="content"
                         src={data?.url}
+                        onLoad={() => {
+                            if (checkIfScrolledToBottom(listRef)) {
+                                listRef.scrollTop = listRef.scrollHeight;
+                            }
+                        }}
                     />
                 );
 
@@ -80,7 +90,7 @@ const Content = ({content}: Props) => {
                     </div>
                 );
         }
-    }, [contentStyle, data, htmlClassName, type]);
+    }, [contentStyle, data, htmlClassName, listRef, type]);
 
     if (isEmpty(content)) {
         return <span>null</span>;

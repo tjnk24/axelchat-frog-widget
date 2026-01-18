@@ -31,6 +31,7 @@ class AppService {
             newMessages.splice(0, needToDeleteCount);
         }
 
+        commonActions.appState.setNewMessagesCount(messages.length);
         commonActions.appState.setAuthors(newAuthors);
         commonActions.appState.setMessages(newMessages);
     };

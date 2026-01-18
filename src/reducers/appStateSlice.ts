@@ -11,16 +11,17 @@ import {
 export type AppStateSlice = {
     messages: MessageDto[];
     selectedMessages: MessageDto[];
+    newMessagesCount: number;
     authors: AuthorDto[];
     statesChangedData: ProtocolMessageStatesChangedData;
     settings: SettingsDto;
-    listRef: EventTarget & HTMLDivElement;
-    isScrolledToBottom: boolean;
+    listRef: HTMLDivElement;
 };
 
 const initialState: AppStateSlice = {
     messages: [],
     selectedMessages: [],
+    newMessagesCount: 0,
     authors: [],
     statesChangedData: {
         viewers: -1,
@@ -42,7 +43,6 @@ const initialState: AppStateSlice = {
         locale: getNavigatorLanguage(),
     },
     listRef: null,
-    isScrolledToBottom: true,
 };
 
 export const appStateSlice = createSlice({
@@ -73,9 +73,9 @@ export const appStateSlice = createSlice({
             ...state,
             listRef: payload,
         }),
-        setIsScrolledToBottom: (state, {payload}: PayloadAction<AppStateSlice['isScrolledToBottom']>) => ({
+        setNewMessagesCount: (state, {payload}: PayloadAction<AppStateSlice['newMessagesCount']>) => ({
             ...state,
-            isScrolledToBottom: payload,
+            newMessagesCount: payload,
         }),
     },
 });

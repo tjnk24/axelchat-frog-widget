@@ -7,7 +7,7 @@ import {appStateSelector} from '__selectors/appStateSelectors';
 import {IndicatorTypeEnum, WidgetTypeEnum} from '__utils/types';
 
 import AnimatedDummyText from '../../components/animated-dummy-text';
-import MessagesList from '../message-list';
+import MessageListContainer from '../message-list-container';
 import ServicesList from '../service-list';
 
 import {CONNECTION_STATUS_WORDINGS} from './consts';
@@ -38,10 +38,10 @@ const Page = () => {
 
         switch (widgetType) {
             case Messages:
-                return <MessagesList messages={messages}/>;
+                return <MessageListContainer messages={messages}/>;
 
             case SelectedMessages:
-                return <MessagesList messages={selectedMessages}/>;
+                return <MessageListContainer messages={selectedMessages}/>;
             case States:
                 return <ServicesList/>;
             default:
